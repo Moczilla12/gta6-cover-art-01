@@ -3,20 +3,84 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Solmar Cover Lab — GTA-style cover art maker</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">SB</span>
+    <div class="brand-text">
+      <strong>SOLMAR COVER LAB</strong>
+      <span>Turn any photo into GTA-style cover art — multi-panel, sunset-graded, ready to post.</span>
+    </div>
+  </div>
+  <div class="top-actions">
+    <button id="undo" type="button" title="Undo (Ctrl+Z)">↩ Undo</button>
+    <button id="redo" type="button" title="Redo (Ctrl+Shift+Z)">↪ Redo</button>
+    <button id="shuffle" type="button" title="Random layout, grade and photos">⚄ Shuffle</button>
+  </div>
+</header>
+<main class="layout">
+  <aside class="side left">
+    <section>
+      <h2>1 · Photos</h2>
+      <p class="hint">Click a photo, then click a panel to place it. Or drop your own files on the preview.</p>
+      <div class="thumbs" id="thumbs"></div>
+      <label class="upload-btn">+ Add your photos
+        <input id="addPhotos" type="file" accept="image/*" multiple hidden>
+      </label>
+      <button id="fillAll" type="button" class="ghost">Fill every panel with the selected photo</button>
+    </section>
+    <section>
+      <h2>2 · Layout</h2>
+      <div class="pills" id="layouts"></div>
+    </section>
+    <section>
+      <h2>3 · Grade</h2>
+      <div class="swatches" id="grades"></div>
+    </section>
+  </aside>
+  <section class="center">
+    <div class="statusbar" id="statusbar"></div>
+    <div class="preview-wrap">
+      <canvas id="preview" aria-label="The cover preview"></canvas>
+    </div>
+    <div class="preview-tools">
+      <label class="zoom-label">Zoom <input id="zoom" type="range" min="1" max="4" step="0.01" value="1"></label>
+      <button id="resetCrop" type="button" class="ghost">Reset crop</button>
+      <span class="hint" id="panelHint">Drag the selected panel to pan · scroll to zoom · drop a photo here</span>
+    </div>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+  <aside class="side right">
+    <section>
+      <h2>4 · Lettering</h2>
+      <label>Title <input id="inTitle" type="text" maxlength="24" value="SUNSET STRIP"></label>
+      <label>Subtitle (script) <input id="inSubtitle" type="text" maxlength="40" value="chasing the last light"></label>
+      <label>Tagline <input id="inTagline" type="text" maxlength="48" value="EVERY STREET HAS A STORY"></label>
+      <label>Place <input id="inPlace" type="text" maxlength="24" value="SOLMAR BAY"></label>
+      <div class="two">
+        <label>Sticker text <input id="inSticker" type="text" maxlength="24" value="COLLECTORS EDITION"></label>
+        <label>Ribbon text <input id="inRibbon" type="text" maxlength="18" value="GOLDEN HOUR"></label>
+      </div>
+      <div class="field-label">Title fill</div>
+      <div class="pills" id="titleFills"></div>
+      <div class="field-label">Heat</div>
+      <div class="stars" id="heatStars"></div>
+      <label class="check"><input id="ckSkyline" type="checkbox" checked> Skyline strip</label>
+      <label class="check"><input id="ckGrain" type="checkbox" checked> Film grain</label>
+      <label class="check"><input id="ckVignette" type="checkbox" checked> Vignette</label>
+    </section>
+    <section>
+      <h2>5 · Export</h2>
+      <div class="pills" id="sizes"></div>
+      <button id="exportOne" type="button" class="primary">⬇ Export PNG — this size</button>
+      <button id="exportAll" type="button" class="secondary">⬇ Export all 4 sizes</button>
+      <p class="hint">PNG, offline. Nothing is uploaded.</p>
+      <p id="status" role="status"></p>
+    </section>
+  </aside>
 </main>
 <script type="module" src="./src/main.js"></script>
 </body>
